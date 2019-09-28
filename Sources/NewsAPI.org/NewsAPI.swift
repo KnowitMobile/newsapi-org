@@ -1,7 +1,7 @@
 import Foundation
 
 
-final class NewsAPI {
+public final class NewsAPI {
 
     class URLRequestBuilder {
         private var url: URLComponents
