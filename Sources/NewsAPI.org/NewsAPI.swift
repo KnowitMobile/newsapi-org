@@ -1,37 +1,7 @@
 import Foundation
 
-let apiKey = "2a714d92477f41cb82e3e68c1bf4e0b7"
-
-struct NewsAPIResponse: Decodable {
-    var status: String
-    var totalResults: Int
-    var articles: [Article]
-}
-
-struct Article: Decodable {
-    var source: Source
-    var author: String?
-    var title: String
-    var description: String
-    var url: String
-    var urlToImage: String?
-    var publishedAt: Date
-    var content: String?
-}
-
-struct Source: Decodable {
-    var id: String?
-    var name: String
-}
-
 
 final class NewsAPI {
-
-//    enum Error: Swift.Error {
-//        case missingApiKey
-//        case invalidApiKey
-//        case serverError
-//    }
 
     class URLRequestBuilder {
         private var url: URLComponents
@@ -77,7 +47,12 @@ final class NewsAPI {
     }
 
     let baseURL = URL(string: "https://newsapi.org/")!
+    var apiKey: String
 
+    init(apiKey: String) {
+        self.apiKey = apiKey
+    }
+    
     enum Scope: String {
         case topHeadlines = "/v2/top-headlines"
         case everything = "/v2/everything"
@@ -87,12 +62,16 @@ final class NewsAPI {
     typealias ArticleRequestCompletion = (Result<[Article],Error>) -> Void
     typealias SourceRequestCompletion = (Result<[Source],Error>) -> Void
 
-    func articles(scope: Scope, country code: String? = Locale.current.regionCode, completion: @escaping ArticleRequestCompletion) {
-        let builder = URLRequestBuilder(baseURL: baseURL, endpoint: scope)!
-        let request = builder.apiKey(apiKey)
+    private func buildRequest(scope: Scope) -> URLRequest {
+        URLRequestBuilder(baseURL: baseURL, endpoint: scope)!
+            .apiKey(apiKey)
             .country(iso3166: "se")
             .build()
-        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+    }
+
+    func articles(scope: Scope, country code: String? = Locale.current.regionCode, completion: @escaping ArticleRequestCompletion) {
+
+        let task = URLSession.shared.dataTask(with: buildRequest(scope: scope)) { (data, response, error) in
             guard error == nil else {
                 return completion(.failure(error!))
             }
@@ -108,8 +87,8 @@ final class NewsAPI {
 
     }
 
-    func sources(completion: @escaping SourceRequestCompletion) {
-
+    @available(iOS 13, OSX 10.15, *)
+    func articles(scope: Scope) -> URLSession.DataTaskPublisher {
+        URLSession.shared.dataTaskPublisher(for: buildRequest(scope: scope))
     }
-
 }

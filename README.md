@@ -1,3 +1,3 @@
 # NewsAPI.org
 
-A description of this package.
+Swift implementation of a NewsAPI.org consumer.
