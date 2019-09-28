@@ -81,7 +81,6 @@ public final class NewsAPI {
             } catch {
                 return completion(.failure(error))
             }
-
         }
         task.resume()
 

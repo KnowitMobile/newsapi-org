@@ -8,23 +8,23 @@
 import Foundation
 
 public struct NewsAPIResponse: Decodable {
-    var status: String
-    var totalResults: Int
-    var articles: [Article]
+    public var status: String
+    public var totalResults: Int
+    public var articles: [Article]
 }
 
 public struct Article: Decodable {
-    var source: Source
-    var author: String?
-    var title: String
-    var description: String
-    var url: String
-    var urlToImage: String?
-    var publishedAt: Date
-    var content: String?
+    public var source: Source
+    public var author: String?
+    public var title: String
+    public var description: String
+    public var url: String
+    public var urlToImage: String?
+    public var publishedAt: Date
+    public var content: String?
 }
 
 public struct Source: Decodable {
-    var id: String?
-    var name: String
+    public var id: String?
+    public var name: String
 }
