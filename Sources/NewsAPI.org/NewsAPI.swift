@@ -49,7 +49,7 @@ public final class NewsAPI {
     let baseURL = URL(string: "https://newsapi.org/")!
     var apiKey: String
 
-    init(apiKey: String) {
+    public init(apiKey: String) {
         self.apiKey = apiKey
     }
     
