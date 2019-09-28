@@ -53,14 +53,14 @@ public final class NewsAPI {
         self.apiKey = apiKey
     }
     
-    enum Scope: String {
+    public enum Scope: String {
         case topHeadlines = "/v2/top-headlines"
         case everything = "/v2/everything"
         case sources = "/v2/sources"
     }
 
-    typealias ArticleRequestCompletion = (Result<[Article],Error>) -> Void
-    typealias SourceRequestCompletion = (Result<[Source],Error>) -> Void
+    public typealias ArticleRequestCompletion = (Result<[Article],Error>) -> Void
+    public typealias SourceRequestCompletion = (Result<[Source],Error>) -> Void
 
     private func buildRequest(scope: Scope) -> URLRequest {
         URLRequestBuilder(baseURL: baseURL, endpoint: scope)!
@@ -69,7 +69,7 @@ public final class NewsAPI {
             .build()
     }
 
-    func articles(scope: Scope, country code: String? = Locale.current.regionCode, completion: @escaping ArticleRequestCompletion) {
+    public func articles(scope: Scope, country code: String? = Locale.current.regionCode, completion: @escaping ArticleRequestCompletion) {
 
         let task = URLSession.shared.dataTask(with: buildRequest(scope: scope)) { (data, response, error) in
             guard error == nil else {
@@ -88,7 +88,7 @@ public final class NewsAPI {
     }
 
     @available(iOS 13, OSX 10.15, *)
-    func articles(scope: Scope) -> URLSession.DataTaskPublisher {
+    public func articles(scope: Scope) -> URLSession.DataTaskPublisher {
         URLSession.shared.dataTaskPublisher(for: buildRequest(scope: scope))
     }
 }
