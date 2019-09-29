@@ -26,6 +26,8 @@ public final class NewsAPI {
         func country(iso3166 code: String) -> Self {
             if let index = url.queryItems!.firstIndex(where: { $0.value == code }) {
                 url.queryItems![index] = URLQueryItem(name: "country", value: code)
+            } else {
+                url.queryItems.append(URLQueryItem(name: "country", value: code))
             }
             return self
         }
@@ -33,6 +35,8 @@ public final class NewsAPI {
         func category(_ category: String) -> Self {
             if let index = url.queryItems!.firstIndex(where: { $0.value == category }) {
                 url.queryItems![index] = URLQueryItem(name: "category", value: category)
+            } else {
+                url.queryItems.append(URLQueryItem(name: "category", value: code))
             }
             return self
         }
