@@ -1,5 +1,5 @@
 import Foundation
-
+import Combine
 
 public final class NewsAPI {
 
@@ -89,8 +89,46 @@ public final class NewsAPI {
         task.resume()
     }
 
+    @available(iOS 13, *)
+    public struct ArticlePublisher: Publisher {
+        public func receive<S>(subscriber: S) where S : Subscriber, NewsAPI.ArticlePublisher.Failure == S.Failure, NewsAPI.ArticlePublisher.Output == S.Input {
+
+        }
+
+        public typealias Output = [Article]
+        public typealias Failure = Never
+
+
+    }
+    class NewsAPIDecoder: JSONDecoder {
+        override init() {
+            super.init()
+            if #available(iOS 10.0, *) {
+                self.dateDecodingStrategy = .iso8601
+            } else {
+                // Fallback on earlier versions
+            }
+        }
+    }
+
     @available(iOS 13, OSX 10.15, *)
     public func articles(scope: Scope) -> URLSession.DataTaskPublisher {
         URLSession.shared.dataTaskPublisher(for: buildRequest(scope: scope))
     }
+
+    @available(iOS 13, *)
+    public func articles(scope: Scope, countryCode: String) -> Any {
+        URLSession.shared.dataTaskPublisher(for: buildRequest(scope: scope))
+            .map { $0.data }
+            .decode(type: NewsAPIResponse.self, decoder: NewsAPIDecoder())
+            .map { $0.articles }
+            .replaceError(with: [])
+        /* TODO figure out return type for this? */
+    }
+
+    @available(iOS 13, *)
+    public func articles(scope: Scope, countryCode: String, category: String) -> Any {
+        URLSession.shared.dataTaskPublisher(for: buildRequest(scope: scope))
+    }
+
 }
