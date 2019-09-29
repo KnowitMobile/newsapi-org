@@ -42,7 +42,7 @@ public final class NewsAPI {
         }
 
         func build() -> URLRequest {
-            var request = URLRequest(url: self.url.url!)
+            var request = URLRequest(url: self.url.url!.absoluteURL)
             if let apiKey = apiKey {
                 request.setValue(apiKey, forHTTPHeaderField: "Authorization")
             }
