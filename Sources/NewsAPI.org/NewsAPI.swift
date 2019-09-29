@@ -69,6 +69,7 @@ public final class NewsAPI {
         URLRequestBuilder(baseURL: baseURL, endpoint: scope)!
             .apiKey(apiKey)
             .country(iso3166: "se")
+            .category("tech")
             .build()
     }
 
