@@ -8,11 +8,10 @@ public final class NewsAPI {
         private var apiKey: String?
 
         init?(baseURL: URL, endpoint: Scope) {
-
             guard let validURL = URL(string: endpoint.rawValue, relativeTo: baseURL) else {
                 return nil
             }
-            self.url = URLComponents(url: validURL, resolvingAgainstBaseURL: false)!
+            self.url = URLComponents(url: validURL, resolvingAgainstBaseURL: true)!
             if url.queryItems == nil {
                 url.queryItems = [URLQueryItem]()
             }
