@@ -27,7 +27,7 @@ public final class NewsAPI {
             if let index = url.queryItems!.firstIndex(where: { $0.value == code }) {
                 url.queryItems![index] = URLQueryItem(name: "country", value: code)
             } else {
-                url.queryItems.append(URLQueryItem(name: "country", value: code))
+                url.queryItems!.append(URLQueryItem(name: "country", value: code))
             }
             return self
         }
@@ -36,7 +36,7 @@ public final class NewsAPI {
             if let index = url.queryItems!.firstIndex(where: { $0.value == category }) {
                 url.queryItems![index] = URLQueryItem(name: "category", value: category)
             } else {
-                url.queryItems.append(URLQueryItem(name: "category", value: code))
+                url.queryItems!.append(URLQueryItem(name: "category", value: category))
             }
             return self
         }
