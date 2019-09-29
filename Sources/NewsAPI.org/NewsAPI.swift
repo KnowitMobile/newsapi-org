@@ -69,7 +69,7 @@ public final class NewsAPI {
         URLRequestBuilder(baseURL: baseURL, endpoint: scope)!
             .apiKey(apiKey)
             .country(iso3166: "se")
-            .category("tech")
+            .category("technology")
             .build()
     }
 
@@ -87,7 +87,6 @@ public final class NewsAPI {
             }
         }
         task.resume()
-
     }
 
     @available(iOS 13, OSX 10.15, *)
