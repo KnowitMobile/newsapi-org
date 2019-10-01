@@ -117,13 +117,12 @@ public final class NewsAPI {
     }
 
     @available(iOS 13, *)
-    public func articles(scope: Scope, countryCode: String) -> Any {
+    public func articles(scope: Scope, countryCode: String) -> AnyPublisher<[Article],Error> {
         URLSession.shared.dataTaskPublisher(for: buildRequest(scope: scope))
             .map { $0.data }
             .decode(type: NewsAPIResponse.self, decoder: NewsAPIDecoder())
             .map { $0.articles }
-            .replaceError(with: [])
-        /* TODO figure out return type for this? */
+            .eraseToAnyPublisher()
     }
 
     @available(iOS 13, *)
